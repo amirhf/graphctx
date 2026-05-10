@@ -1,0 +1,550 @@
+{
+  "exampleName": "graphctx-mvp-planning",
+  "files": {
+    "input": "input.md",
+    "graph": "graph.json",
+    "contextPack": "context-pack.md"
+  },
+  "generatedAt": "2026-05-10T13:48:45.815Z",
+  "mode": "hybrid",
+  "provider": "openrouter",
+  "model": "openai/gpt-4.1-mini",
+  "deterministic": {
+    "graphValidation": {
+      "ok": true,
+      "graph": {
+        "title": "GraphCtx MVP Planning Context Graph",
+        "summary": "This context graph captures the core ideas, product thesis, MVP direction, decisions, assumptions, risks, phase 1 build plan, success criteria, and next actions for the GraphCtx MVP project focused on converting messy AI conversations into structured context graphs and reusable Context Packs.",
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "idea",
+            "title": "Graph-based LLM Interaction Model",
+            "body": "Model LLM interaction as a graph of thinking where each node represents a question, claim, idea, research result, decision, task, assumption, source, or plan, making the graph a durable thinking workspace.",
+            "confidence": 0.95,
+            "tags": [
+              "core_idea",
+              "model"
+            ],
+            "source_span": {
+              "quote": "Instead of treating LLM interaction as one long linear chat, model it as a graph of thinking."
+            }
+          },
+          {
+            "id": "n2",
+            "type": "idea",
+            "title": "Structured, Inspectable, Reusable Context",
+            "body": "Complex AI-assisted reasoning, research, and planning require structured, inspectable, and reusable context rather than linear chat.",
+            "confidence": 0.9,
+            "tags": [
+              "product_thesis"
+            ],
+            "source_span": {
+              "quote": "Linear chat is not enough for complex AI-assisted thinking."
+            }
+          },
+          {
+            "id": "n3",
+            "type": "decision",
+            "title": "Focus on Context Pack Quality Before Graph UI",
+            "body": "Prioritize the quality of Context Pack export before developing the graph user interface to ensure practical value.",
+            "confidence": 0.95,
+            "tags": [
+              "mvp_decision"
+            ],
+            "source_span": {
+              "quote": "Start with Context Pack quality before graph UI."
+            }
+          },
+          {
+            "id": "n4",
+            "type": "decision",
+            "title": "Use Small Fixed Node and Edge Taxonomies",
+            "body": "Adopt a small node taxonomy (idea, question, assumption, decision, risk, task, source, summary) and a small edge taxonomy (part_of, expands, supports, contradicts, depends_on, leads_to, answers) for clarity and usability.",
+            "confidence": 0.9,
+            "tags": [
+              "mvp_decision",
+              "design"
+            ],
+            "source_span": {
+              "quote": "Use a small node taxonomy... Use a small edge taxonomy..."
+            }
+          },
+          {
+            "id": "n5",
+            "type": "decision",
+            "title": "Phase 1 Excludes Auth, Collaboration, Cloud, and Advanced Features",
+            "body": "Do not build authentication, collaboration, cloud hosting, browser extension, graph database, vector database, or advanced agent workflows in Phase 1 to focus on core MVP.",
+            "confidence": 0.9,
+            "tags": [
+              "mvp_decision",
+              "scope"
+            ],
+            "source_span": {
+              "quote": "Do not build auth, collaboration, cloud hosting, browser extension, graph database, vector database, or advanced agent workflows in Phase 1."
+            }
+          },
+          {
+            "id": "n6",
+            "type": "assumption",
+            "title": "Users Have Long AI Conversations to Reuse",
+            "body": "Target users engage in long AI conversations that they want to reuse and structure for future sessions.",
+            "confidence": 0.85,
+            "tags": [
+              "user_assumption"
+            ],
+            "source_span": {
+              "quote": "Users have long AI conversations they want to reuse."
+            }
+          },
+          {
+            "id": "n7",
+            "type": "assumption",
+            "title": "Context Pack Export is Valuable",
+            "body": "Exporting Context Packs is valuable enough for users to paste into future AI sessions, providing practical reuse.",
+            "confidence": 0.9,
+            "tags": [
+              "user_assumption",
+              "value"
+            ],
+            "source_span": {
+              "quote": "Context Pack export is valuable enough to paste into future AI sessions."
+            }
+          },
+          {
+            "id": "n8",
+            "type": "assumption",
+            "title": "Graph Structure Improves Understanding",
+            "body": "Using a graph structure improves understanding of complex conversations and may justify building a UI later.",
+            "confidence": 0.8,
+            "tags": [
+              "user_assumption",
+              "design"
+            ],
+            "source_span": {
+              "quote": "Graph structure improves understanding and may justify a UI later."
+            }
+          },
+          {
+            "id": "n9",
+            "type": "risk",
+            "title": "LLM May Produce Shallow Nodes",
+            "body": "The LLM might generate nodes that look impressive but lack depth or meaningful content.",
+            "confidence": 0.8,
+            "tags": [
+              "risk",
+              "quality"
+            ],
+            "source_span": {
+              "quote": "The LLM may produce impressive-looking but shallow nodes."
+            }
+          },
+          {
+            "id": "n10",
+            "type": "risk",
+            "title": "Graph May Become Too Dense or Generic",
+            "body": "If the prompt encourages one node per paragraph, the graph may become overly dense or generic, reducing usefulness.",
+            "confidence": 0.85,
+            "tags": [
+              "risk",
+              "usability"
+            ],
+            "source_span": {
+              "quote": "The graph may become too dense or generic if the prompt encourages one node per paragraph."
+            }
+          },
+          {
+            "id": "n11",
+            "type": "risk",
+            "title": "Visual Graph May Distract from Validation",
+            "body": "The visual representation of the graph might distract users from validating whether the extracted reusable context is actually valuable.",
+            "confidence": 0.7,
+            "tags": [
+              "risk",
+              "usability"
+            ],
+            "source_span": {
+              "quote": "The visual graph may distract from validating whether reusable context is actually valuable."
+            }
+          },
+          {
+            "id": "n12",
+            "type": "risk",
+            "title": "Source Spans May Be Unreliable",
+            "body": "Source spans relying solely on quotes may be unreliable, potentially affecting trust and traceability.",
+            "confidence": 0.75,
+            "tags": [
+              "risk",
+              "trust"
+            ],
+            "source_span": {
+              "quote": "Source spans may be unreliable if they rely only on quotes."
+            }
+          },
+          {
+            "id": "n13",
+            "type": "task",
+            "title": "Build Local TypeScript CLI for Phase 1",
+            "body": "Develop a local TypeScript CLI that reads Markdown or text files, extracts context graphs with an LLM, validates graph JSON, exports deterministic Markdown Context Packs, and creates a manual evaluation template.",
+            "confidence": 0.95,
+            "tags": [
+              "phase_1",
+              "development"
+            ],
+            "source_span": {
+              "quote": "Build a local TypeScript CLI that reads a Markdown or text file, extracts a context graph with an LLM, validates the graph JSON, exports a deterministic Markdown Context Pack, and creates a manual evaluation template."
+            }
+          },
+          {
+            "id": "n14",
+            "type": "task",
+            "title": "Produce graph.json, context-pack.md, and evaluation.md",
+            "body": "The CLI command should output graph.json, context-pack.md, and evaluation.md files as deliverables.",
+            "confidence": 0.95,
+            "tags": [
+              "phase_1",
+              "deliverables"
+            ],
+            "source_span": {
+              "quote": "The command should produce: graph.json, context-pack.md, evaluation.md"
+            }
+          },
+          {
+            "id": "n15",
+            "type": "summary",
+            "title": "Success Criteria for Phase 1",
+            "body": "Five sample inputs produce valid graph JSON and readable Context Packs; at least three outputs score 4/5 or higher on Context Pack usefulness; generated Context Packs are useful for future AI sessions.",
+            "confidence": 0.9,
+            "tags": [
+              "success_criteria"
+            ],
+            "source_span": {
+              "quote": "Five sample inputs produce valid graph JSON... At least three outputs score 4/5 or higher on Context Pack usefulness."
+            }
+          },
+          {
+            "id": "n16",
+            "type": "task",
+            "title": "Bootstrap pnpm TypeScript Workspace",
+            "body": "Initialize the pnpm TypeScript workspace as the first development step.",
+            "confidence": 0.95,
+            "tags": [
+              "next_action",
+              "setup"
+            ],
+            "source_span": {
+              "quote": "Bootstrap the pnpm TypeScript workspace."
+            }
+          },
+          {
+            "id": "n17",
+            "type": "task",
+            "title": "Implement Graph Schema and Validator",
+            "body": "Develop the graph schema and JSON validator before other components.",
+            "confidence": 0.95,
+            "tags": [
+              "next_action",
+              "development"
+            ],
+            "source_span": {
+              "quote": "Implement the graph schema and validator first."
+            }
+          },
+          {
+            "id": "n18",
+            "type": "task",
+            "title": "Implement Deterministic Context Pack Export",
+            "body": "Create the deterministic Context Pack export functionality before integrating the LLM.",
+            "confidence": 0.95,
+            "tags": [
+              "next_action",
+              "development"
+            ],
+            "source_span": {
+              "quote": "Implement deterministic Context Pack export before LLM integration."
+            }
+          },
+          {
+            "id": "n19",
+            "type": "task",
+            "title": "Add OpenAI and OpenRouter Clients",
+            "body": "Integrate OpenAI and OpenRouter clients behind a unified interface for LLM access.",
+            "confidence": 0.9,
+            "tags": [
+              "next_action",
+              "integration"
+            ],
+            "source_span": {
+              "quote": "Add OpenAI and OpenRouter clients behind the same interface."
+            }
+          },
+          {
+            "id": "n20",
+            "type": "task",
+            "title": "Run Extraction on GraphCtx MVP Planning Example",
+            "body": "Test the extraction process using the GraphCtx MVP planning conversation as input.",
+            "confidence": 0.9,
+            "tags": [
+              "next_action",
+              "testing"
+            ],
+            "source_span": {
+              "quote": "Run extraction against at least the GraphCtx MVP planning example."
+            }
+          },
+          {
+            "id": "n21",
+            "type": "task",
+            "title": "Manually Score Extraction Results",
+            "body": "Manually evaluate extraction outputs and update Phase 1 results accordingly.",
+            "confidence": 0.9,
+            "tags": [
+              "next_action",
+              "evaluation"
+            ],
+            "source_span": {
+              "quote": "Score results manually and update Phase 1 results."
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "n1",
+            "target": "n2",
+            "type": "supports",
+            "rationale": "The graph-based interaction model supports the need for structured, inspectable, reusable context."
+          },
+          {
+            "id": "e2",
+            "source": "n3",
+            "target": "n14",
+            "type": "leads_to",
+            "rationale": "Focusing on Context Pack quality leads to producing context-pack.md as a deliverable."
+          },
+          {
+            "id": "e3",
+            "source": "n4",
+            "target": "n13",
+            "type": "depends_on",
+            "rationale": "Using small taxonomies informs the design and implementation of the CLI extraction tool."
+          },
+          {
+            "id": "e4",
+            "source": "n5",
+            "target": "n13",
+            "type": "depends_on",
+            "rationale": "Limiting scope in Phase 1 defines the features to be built in the CLI."
+          },
+          {
+            "id": "e5",
+            "source": "n6",
+            "target": "n7",
+            "type": "depends_on",
+            "rationale": "Users having long conversations implies the value of Context Pack export."
+          },
+          {
+            "id": "e6",
+            "source": "n7",
+            "target": "n15",
+            "type": "supports",
+            "rationale": "The value of Context Pack export defines success criteria around Context Pack usefulness."
+          },
+          {
+            "id": "e7",
+            "source": "n13",
+            "target": "n14",
+            "type": "leads_to",
+            "rationale": "Building the CLI leads to producing the required output files."
+          },
+          {
+            "id": "e8",
+            "source": "n16",
+            "target": "n17",
+            "type": "leads_to",
+            "rationale": "Bootstrapping the workspace is the first step before implementing schema and validator."
+          },
+          {
+            "id": "e9",
+            "source": "n17",
+            "target": "n18",
+            "type": "leads_to",
+            "rationale": "Implementing the schema and validator precedes Context Pack export implementation."
+          },
+          {
+            "id": "e10",
+            "source": "n18",
+            "target": "n19",
+            "type": "leads_to",
+            "rationale": "Context Pack export implementation is followed by adding LLM clients."
+          },
+          {
+            "id": "e11",
+            "source": "n19",
+            "target": "n20",
+            "type": "leads_to",
+            "rationale": "Adding LLM clients enables running extraction on the MVP planning example."
+          },
+          {
+            "id": "e12",
+            "source": "n20",
+            "target": "n21",
+            "type": "leads_to",
+            "rationale": "Running extraction leads to manual scoring and updating results."
+          }
+        ],
+        "metadata": {
+          "generated_at": "2026-05-10T00:27:20.024Z",
+          "model": "openrouter/openai/gpt-4.1-mini",
+          "input_chars": 3329,
+          "version": "phase-1"
+        }
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "nodeCount": 21,
+    "edgeCount": 12,
+    "nodeTypeCounts": {
+      "idea": 2,
+      "decision": 3,
+      "assumption": 3,
+      "risk": 4,
+      "task": 8,
+      "summary": 1,
+      "question": 0,
+      "source": 0
+    },
+    "missingImportantNodeTypes": [
+      "question"
+    ],
+    "requiredSections": [
+      {
+        "section": "## Goal",
+        "present": true
+      },
+      {
+        "section": "## Current Understanding",
+        "present": true
+      },
+      {
+        "section": "## Key Ideas",
+        "present": true
+      },
+      {
+        "section": "## Decisions Made",
+        "present": true
+      },
+      {
+        "section": "## Assumptions",
+        "present": true
+      },
+      {
+        "section": "## Open Questions",
+        "present": true
+      },
+      {
+        "section": "## Risks",
+        "present": true
+      },
+      {
+        "section": "## Tasks / Next Actions",
+        "present": true
+      },
+      {
+        "section": "## Useful Source Notes",
+        "present": true
+      },
+      {
+        "section": "## Suggested Prompt for Next AI Session",
+        "present": true
+      }
+    ],
+    "missingSections": [],
+    "taskChecklist": {
+      "taskNodes": 8,
+      "checklistItems": 8,
+      "ok": true
+    },
+    "sourceTraceability": {
+      "nodesWithSourceQuote": 21,
+      "totalNodes": 21,
+      "ratio": 1
+    },
+    "warnings": [
+      "missing question nodes"
+    ],
+    "estimatedScore": 4
+  },
+  "judge": {
+    "criteria": {
+      "captures_main_goal": {
+        "score": 5,
+        "notes": "The graph and Context Pack clearly capture the main goal of turning messy AI conversations into structured context graphs and reusable Context Packs.",
+        "evidence": "Node n1 and n2 describe the core idea and product thesis; the summary and goal sections in the Context Pack explicitly state the main goal."
+      },
+      "captures_key_ideas": {
+        "score": 5,
+        "notes": "Key ideas such as the graph-based interaction model and the need for structured, inspectable, reusable context are well represented.",
+        "evidence": "Nodes n1 and n2 capture these ideas with source quotes; the Context Pack's Key Ideas section includes these with sources."
+      },
+      "captures_decisions": {
+        "score": 5,
+        "notes": "All major decisions from the original input are captured with rationale and source quotes.",
+        "evidence": "Nodes n3, n4, n5 represent decisions with source spans; Context Pack Decisions Made section lists them with rationale and related nodes."
+      },
+      "captures_assumptions": {
+        "score": 5,
+        "notes": "All key assumptions are included with confidence levels and source quotes.",
+        "evidence": "Nodes n6, n7, n8 cover assumptions; Context Pack Assumptions section includes them with confidence and validation notes."
+      },
+      "captures_risks": {
+        "score": 5,
+        "notes": "All risks mentioned in the original input are present with clear descriptions and source quotes.",
+        "evidence": "Nodes n9 to n12 cover risks; Context Pack Risks section lists them with sources."
+      },
+      "captures_tasks": {
+        "score": 5,
+        "notes": "Tasks and next actions are comprehensively captured with source quotes and checklist format in the Context Pack.",
+        "evidence": "Nodes n13 to n21 represent tasks; Context Pack Tasks / Next Actions section lists all with sources and checkboxes."
+      },
+      "context_pack_usefulness": {
+        "score": 4,
+        "notes": "The Context Pack is detailed and structured, suitable for reuse, but lacks explicit open questions despite the original input having an 'Open Questions' section.",
+        "evidence": "Context Pack has an Open Questions section but states no explicit questions were extracted, which is a minor gap."
+      },
+      "graph_coherence": {
+        "score": 5,
+        "notes": "The graph is well-structured with meaningful edges that reflect dependencies and rationale, supporting coherent navigation of the context.",
+        "evidence": "Edges clearly link decisions to tasks, assumptions to value, and tasks in logical order; rationale is provided for edges."
+      },
+      "source_traceability": {
+        "score": 5,
+        "notes": "Every node includes a source quote from the original input, ensuring full traceability.",
+        "evidence": "All 21 nodes have source_span with quotes; Context Pack includes source references for all items."
+      },
+      "overall_reuse_value": {
+        "score": 4,
+        "notes": "The graph and Context Pack provide strong reusable context for future AI sessions, with minor gaps such as missing question nodes and explicit open questions.",
+        "evidence": "Missing question nodes noted in warnings; Open Questions section empty; otherwise, detailed and structured content supports reuse."
+      }
+    },
+    "would_reuse": "maybe",
+    "biggest_missing_value": "Missing explicit question nodes and open questions reduce the ability to track unresolved issues and guide future inquiry.",
+    "recommended_changes": [
+      "Include explicit question nodes extracted from the original input or flagged as open questions.",
+      "Populate the Open Questions section with any unresolved or outstanding questions to guide next AI sessions.",
+      "Consider adding source nodes or more detailed source notes to improve traceability beyond quotes.",
+      "Add more nuanced edge types or rationales to capture deeper relationships if present."
+    ]
+  },
+  "overallScore": 4,
+  "wouldReuse": "maybe",
+  "biggestMissingValue": "Missing explicit question nodes and open questions reduce the ability to track unresolved issues and guide future inquiry.",
+  "recommendedChanges": [
+    "Include explicit question nodes extracted from the original input or flagged as open questions.",
+    "Populate the Open Questions section with any unresolved or outstanding questions to guide next AI sessions.",
+    "Consider adding source nodes or more detailed source notes to improve traceability beyond quotes.",
+    "Add more nuanced edge types or rationales to capture deeper relationships if present."
+  ]
+}

@@ -30,9 +30,27 @@ pnpm graphctx extract examples/graphctx-mvp-planning/input.md
 pnpm graphctx extract examples/graphctx-mvp-planning/input.md --provider openrouter
 pnpm graphctx export examples/graphctx-mvp-planning/graph.json
 pnpm graphctx run-example examples/graphctx-mvp-planning
+pnpm graphctx evaluate examples/graphctx-mvp-planning
+pnpm graphctx evaluate examples/graphctx-mvp-planning --skip-llm
+pnpm graphctx evaluate-all examples --skip-llm
 pnpm test
 pnpm build
 ```
+
+## Automated Evaluation
+
+Generated examples can be evaluated with deterministic checks plus an optional LLM judge:
+
+```bash
+pnpm graphctx evaluate examples/graphctx-mvp-planning
+```
+
+This writes:
+
+- `evaluation.json`
+- `evaluation.auto.md`
+
+Use `--skip-llm` for CI-friendly deterministic checks without API calls.
 
 ## Environment
 

@@ -22,6 +22,13 @@ export type ExtractGraphOptions = {
   client?: LlmClient;
 };
 
+export type CreateLlmClientOptions = {
+  provider?: LlmProvider;
+  model?: string;
+  temperature?: number;
+  client?: LlmClient;
+};
+
 function positiveIntegerFromEnv(value: string | undefined, fallback: number): number {
   if (!value) {
     return fallback;
@@ -31,7 +38,11 @@ function positiveIntegerFromEnv(value: string | undefined, fallback: number): nu
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
-function createClient(options: ExtractGraphOptions): { client: LlmClient; provider: LlmProvider; model: string } {
+export function createLlmClient(options: CreateLlmClientOptions = {}): {
+  client: LlmClient;
+  provider: LlmProvider;
+  model: string;
+} {
   const provider = options.provider ?? (process.env.LLM_PROVIDER as LlmProvider | undefined) ?? "openai";
 
   if (options.client) {
@@ -147,7 +158,7 @@ export async function extractGraph(input: string, options: ExtractGraphOptions =
   const maxInputChars =
     options.maxInputChars ?? positiveIntegerFromEnv(process.env.GRAPHCTX_MAX_INPUT_CHARS, 120000);
   const trimmedInput = input.length > maxInputChars ? input.slice(0, maxInputChars) : input;
-  const { client, provider, model } = createClient(options);
+  const { client, provider, model } = createLlmClient(options);
   const prompt = buildExtractionPrompt(trimmedInput);
   const rawGraph = normalizeExtractedGraph(await client.completeJson(prompt));
 

@@ -27,6 +27,7 @@ Phase 1 has been bootstrapped as a local TypeScript extraction/export engine.
 ## What Worked
 
 - The local CLI generated `graph.json`, `context-pack.md`, and `evaluation.md` for the GraphCtx planning example.
+- Automated evaluation generated `evaluation.json` and `evaluation.auto.md` for the GraphCtx planning example.
 - The generated graph validated successfully after adding light LLM alias normalization for common invented node/edge labels.
 - The Context Pack grouped decisions, assumptions, risks, and tasks into readable reusable sections.
 
@@ -42,6 +43,7 @@ Phase 1 has been bootstrapped as a local TypeScript extraction/export engine.
 ## Context Pack Issues
 
 - The first generated GraphCtx Context Pack did not extract explicit open questions or source nodes, even though it captured decisions, risks, assumptions, and tasks.
+- The live automated judge scored overall reuse value at 4/5 and recommended adding explicit question nodes/open questions.
 
 ## Schema Changes Needed
 

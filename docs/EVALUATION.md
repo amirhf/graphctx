@@ -40,3 +40,25 @@ Score each example from 1-5:
 | Graph coherence |  |
 | Source traceability |  |
 | Overall reuse value |  |
+
+## Automated Evaluation
+
+Run automated evaluation for an example with generated outputs:
+
+```bash
+pnpm graphctx evaluate examples/graphctx-mvp-planning
+```
+
+Run deterministic checks only:
+
+```bash
+pnpm graphctx evaluate examples/graphctx-mvp-planning --skip-llm
+pnpm graphctx evaluate-all examples --skip-llm
+```
+
+Automated evaluation writes:
+
+- `evaluation.json`
+- `evaluation.auto.md`
+
+The automated evaluator combines deterministic checks with an optional LLM judge. Deterministic checks validate graph JSON, count node/edge coverage, check required Context Pack sections, verify task checklist rendering, and estimate source traceability. The LLM judge scores the output against the same Phase 1 criteria and recommends prompt or schema changes.

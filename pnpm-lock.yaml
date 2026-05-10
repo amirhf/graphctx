@@ -45,7 +45,17 @@ importers:
         specifier: workspace:*
         version: link:../graph-schema
 
-  packages/evaluation: {}
+  packages/evaluation:
+    dependencies:
+      '@graphctx/graph-schema':
+        specifier: workspace:*
+        version: link:../graph-schema
+      '@graphctx/llm-extractor':
+        specifier: workspace:*
+        version: link:../llm-extractor
+      zod:
+        specifier: ^3.24.3
+        version: 3.25.76
 
   packages/graph-schema:
     dependencies:

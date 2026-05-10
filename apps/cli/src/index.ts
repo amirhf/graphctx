@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { config as loadEnv } from "dotenv";
+import { runEvaluateAllCommand, runEvaluateCommand } from "./commands/evaluate.js";
 import { runExportCommand } from "./commands/export.js";
 import { runExtractCommand } from "./commands/extract.js";
 import { runExampleCommand } from "./commands/runExample.js";
@@ -44,6 +45,30 @@ program
   .option("--temperature <temperature>", "LLM temperature")
   .action(async (exampleDir, options) => {
     await runExampleCommand(exampleDir, options);
+  });
+
+program
+  .command("evaluate")
+  .argument("<example-dir>", "Example directory containing input.md, graph.json, and context-pack.md")
+  .option("--provider <provider>", "LLM judge provider: openai or openrouter")
+  .option("--model <model>", "LLM judge model override")
+  .option("--temperature <temperature>", "LLM judge temperature")
+  .option("--skip-llm", "Run deterministic checks only")
+  .option("--fail-under <score>", "Exit nonzero when overall score is below this threshold")
+  .action(async (exampleDir, options) => {
+    await runEvaluateCommand(exampleDir, options);
+  });
+
+program
+  .command("evaluate-all")
+  .argument("[examples-dir]", "Directory containing example folders", "examples")
+  .option("--provider <provider>", "LLM judge provider: openai or openrouter")
+  .option("--model <model>", "LLM judge model override")
+  .option("--temperature <temperature>", "LLM judge temperature")
+  .option("--skip-llm", "Run deterministic checks only")
+  .option("--fail-under <score>", "Exit nonzero when any overall score is below this threshold")
+  .action(async (examplesDir, options) => {
+    await runEvaluateAllCommand(examplesDir, options);
   });
 
 program.parseAsync().catch((error: unknown) => {

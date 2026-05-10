@@ -11,5 +11,10 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@graphctx/graph-schema": "workspace:*",
+    "@graphctx/llm-extractor": "workspace:*",
+    "zod": "^3.24.3"
   }
 }
