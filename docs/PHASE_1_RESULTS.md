@@ -27,6 +27,7 @@ Phase 1 has been bootstrapped as a local TypeScript extraction/export engine.
 ## What Worked
 
 - The local CLI generated `graph.json`, `context-pack.md`, and `evaluation.md` for the GraphCtx planning example.
+- Generated example outputs now live under `examples/<case>/outputs/` when using `run-example`.
 - Automated evaluation generated `evaluation.json` and `evaluation.auto.md` for the GraphCtx planning example.
 - The generated graph validated successfully after adding light LLM alias normalization for common invented node/edge labels.
 - The Context Pack grouped decisions, assumptions, risks, and tasks into readable reusable sections.

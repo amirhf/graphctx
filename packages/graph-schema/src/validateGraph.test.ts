@@ -78,4 +78,26 @@ describe("validateContextGraph", () => {
 
     expect(result.ok).toBe(false);
   });
+
+  it("accepts quality pass metadata", () => {
+    const result = validateContextGraph({
+      ...validGraph,
+      metadata: {
+        generated_at: "2026-05-11T00:00:00.000Z",
+        model: "openai/test",
+        input_chars: 123,
+        version: "phase-1.5",
+        quality_pass: {
+          enabled: true,
+          patch_rounds: 1,
+          missing_core_node_types_before: ["assumption", "question"],
+          missing_core_node_types_after: ["question"],
+          critique_summary: "Added a grounded assumption.",
+        },
+      },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.graph?.metadata?.quality_pass?.patch_rounds).toBe(1);
+  });
 });

@@ -96,4 +96,5 @@ export type EvaluateExampleOptions = {
   model?: string;
   temperature?: number;
   write?: boolean;
+  outDir?: string;
 };

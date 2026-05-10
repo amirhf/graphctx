@@ -47,6 +47,14 @@ export const GraphEdgeSchema = z.object({
   rationale: z.string().optional(),
 });
 
+export const QualityPassMetadataSchema = z.object({
+  enabled: z.boolean(),
+  patch_rounds: z.number().int().nonnegative(),
+  missing_core_node_types_before: z.array(z.enum(nodeTypes)),
+  missing_core_node_types_after: z.array(z.enum(nodeTypes)),
+  critique_summary: z.string().optional(),
+});
+
 export const ContextGraphSchema = z.object({
   title: z.string().min(1),
   summary: z.string().min(1),
@@ -58,6 +66,7 @@ export const ContextGraphSchema = z.object({
       model: z.string().optional(),
       input_chars: z.number().int().nonnegative().optional(),
       version: z.string().optional(),
+      quality_pass: QualityPassMetadataSchema.optional(),
     })
     .optional(),
 });

@@ -58,7 +58,7 @@ pnpm graphctx evaluate-all examples --skip-llm
 
 Automated evaluation writes:
 
-- `evaluation.json`
-- `evaluation.auto.md`
+- `outputs/evaluation.json`
+- `outputs/evaluation.auto.md`
 
 The automated evaluator combines deterministic checks with an optional LLM judge. Deterministic checks validate graph JSON, count node/edge coverage, check required Context Pack sections, verify task checklist rendering, and estimate source traceability. The LLM judge scores the output against the same Phase 1 criteria and recommends prompt or schema changes.

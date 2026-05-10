@@ -12,6 +12,8 @@ import type {
   JudgeEvaluation,
 } from "./types.js";
 
+export const DEFAULT_EXAMPLE_OUTPUT_DIR = "outputs";
+
 function fallbackMissingValue(result: ReturnType<typeof runDeterministicEvaluation>): string {
   if (!result.graphValidation.ok) {
     return "Graph JSON failed validation.";
@@ -23,6 +25,26 @@ function fallbackMissingValue(result: ReturnType<typeof runDeterministicEvaluati
     return `Missing Context Pack sections: ${result.missingSections.join(", ")}.`;
   }
   return "No major deterministic gaps found; LLM judge was skipped.";
+}
+
+export function resolveExampleOutputDir(exampleDir: string, outDir?: string): string {
+  const resolvedExampleDir = path.resolve(exampleDir);
+  const trimmedOutDir = outDir?.trim();
+
+  if (!trimmedOutDir) {
+    return path.join(resolvedExampleDir, DEFAULT_EXAMPLE_OUTPUT_DIR);
+  }
+
+  if (path.isAbsolute(trimmedOutDir) || trimmedOutDir.includes("/") || trimmedOutDir.includes("\\")) {
+    return path.resolve(trimmedOutDir);
+  }
+
+  return path.join(resolvedExampleDir, trimmedOutDir);
+}
+
+function displayPath(fromDir: string, filePath: string): string {
+  const relative = path.relative(fromDir, filePath) || path.basename(filePath);
+  return relative.split(path.sep).join("/");
 }
 
 export async function evaluateGraphAndContextPack(
@@ -81,9 +103,10 @@ export async function evaluateExample(
   options: EvaluateExampleOptions = {},
 ): Promise<AutomatedEvaluationResult> {
   const resolvedDir = path.resolve(exampleDir);
+  const outputDir = resolveExampleOutputDir(resolvedDir, options.outDir);
   const inputPath = path.join(resolvedDir, "input.md");
-  const graphPath = path.join(resolvedDir, "graph.json");
-  const contextPackPath = path.join(resolvedDir, "context-pack.md");
+  const graphPath = path.join(outputDir, "graph.json");
+  const contextPackPath = path.join(outputDir, "context-pack.md");
   const [sourceInput, graphRaw, contextPackMarkdown] = await Promise.all([
     readFile(inputPath, "utf8"),
     readFile(graphPath, "utf8"),
@@ -95,9 +118,9 @@ export async function evaluateExample(
     graphJson: JSON.parse(graphRaw) as unknown,
     contextPackMarkdown,
     files: {
-      input: path.basename(inputPath),
-      graph: path.basename(graphPath),
-      contextPack: path.basename(contextPackPath),
+      input: displayPath(resolvedDir, inputPath),
+      graph: displayPath(resolvedDir, graphPath),
+      contextPack: displayPath(resolvedDir, contextPackPath),
     },
     exampleName: path.basename(resolvedDir),
     skipLlm: options.skipLlm,
@@ -107,10 +130,10 @@ export async function evaluateExample(
   });
 
   if (options.write ?? true) {
-    await mkdir(resolvedDir, { recursive: true });
-    await writeFile(path.join(resolvedDir, "evaluation.json"), `${JSON.stringify(result, null, 2)}\n`, "utf8");
+    await mkdir(outputDir, { recursive: true });
+    await writeFile(path.join(outputDir, "evaluation.json"), `${JSON.stringify(result, null, 2)}\n`, "utf8");
     await writeFile(
-      path.join(resolvedDir, "evaluation.auto.md"),
+      path.join(outputDir, "evaluation.auto.md"),
       renderAutomatedEvaluationMarkdown(result),
       "utf8",
     );

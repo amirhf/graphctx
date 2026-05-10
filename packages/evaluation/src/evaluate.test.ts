@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
@@ -140,16 +140,34 @@ describe("automated evaluation", () => {
 
   it("evaluates an example without API keys when skipLlm is true", async () => {
     const exampleDir = await mkdtemp(path.join(os.tmpdir(), "graphctx-eval-"));
+    const outputDir = path.join(exampleDir, "outputs");
+    await mkdir(outputDir, { recursive: true });
     await writeFile(path.join(exampleDir, "input.md"), "Original input.", "utf8");
-    await writeFile(path.join(exampleDir, "graph.json"), `${JSON.stringify(validGraph, null, 2)}\n`, "utf8");
-    await writeFile(path.join(exampleDir, "context-pack.md"), validContextPack, "utf8");
+    await writeFile(path.join(outputDir, "graph.json"), `${JSON.stringify(validGraph, null, 2)}\n`, "utf8");
+    await writeFile(path.join(outputDir, "context-pack.md"), validContextPack, "utf8");
 
     const result = await evaluateExample(exampleDir, { skipLlm: true });
-    const json = await readFile(path.join(exampleDir, "evaluation.json"), "utf8");
-    const markdown = await readFile(path.join(exampleDir, "evaluation.auto.md"), "utf8");
+    const json = await readFile(path.join(outputDir, "evaluation.json"), "utf8");
+    const markdown = await readFile(path.join(outputDir, "evaluation.auto.md"), "utf8");
 
     expect(result.mode).toBe("deterministic");
+    expect(result.files.graph).toBe("outputs/graph.json");
     expect(JSON.parse(json).overallScore).toBe(result.overallScore);
     expect(markdown).toContain("# Automated Evaluation");
+  });
+
+  it("evaluates a custom example output directory", async () => {
+    const exampleDir = await mkdtemp(path.join(os.tmpdir(), "graphctx-eval-custom-"));
+    const outputDir = path.join(exampleDir, "custom");
+    await mkdir(outputDir, { recursive: true });
+    await writeFile(path.join(exampleDir, "input.md"), "Original input.", "utf8");
+    await writeFile(path.join(outputDir, "graph.json"), `${JSON.stringify(validGraph, null, 2)}\n`, "utf8");
+    await writeFile(path.join(outputDir, "context-pack.md"), validContextPack, "utf8");
+
+    const result = await evaluateExample(exampleDir, { skipLlm: true, outDir: "custom" });
+    const json = await readFile(path.join(outputDir, "evaluation.json"), "utf8");
+
+    expect(result.files.graph).toBe("custom/graph.json");
+    expect(JSON.parse(json).files.contextPack).toBe("custom/context-pack.md");
   });
 });

@@ -1,4 +1,9 @@
-import { evaluateExample, renderAutomatedEvaluationMarkdown, type EvaluateExampleOptions } from "@graphctx/evaluation";
+import {
+  evaluateExample,
+  renderAutomatedEvaluationMarkdown,
+  resolveExampleOutputDir,
+  type EvaluateExampleOptions,
+} from "@graphctx/evaluation";
 import type { LlmProvider } from "@graphctx/llm-extractor";
 import { access, readdir } from "node:fs/promises";
 import path from "node:path";
@@ -9,6 +14,7 @@ export type EvaluateCommandOptions = {
   temperature?: string;
   skipLlm?: boolean;
   failUnder?: string;
+  outDir?: string;
 };
 
 function parseEvaluationOptions(options: EvaluateCommandOptions): EvaluateExampleOptions {
@@ -17,6 +23,7 @@ function parseEvaluationOptions(options: EvaluateCommandOptions): EvaluateExampl
     model: options.model,
     temperature: options.temperature ? Number.parseFloat(options.temperature) : undefined,
     skipLlm: options.skipLlm,
+    outDir: options.outDir,
   };
 }
 
@@ -32,12 +39,13 @@ function parseFailUnder(value: string | undefined): number | undefined {
   return parsed;
 }
 
-async function hasGeneratedOutputs(exampleDir: string): Promise<boolean> {
+async function hasGeneratedOutputs(exampleDir: string, outDir?: string): Promise<boolean> {
+  const outputDir = resolveExampleOutputDir(exampleDir, outDir);
   try {
     await Promise.all([
       access(path.join(exampleDir, "input.md")),
-      access(path.join(exampleDir, "graph.json")),
-      access(path.join(exampleDir, "context-pack.md")),
+      access(path.join(outputDir, "graph.json")),
+      access(path.join(outputDir, "context-pack.md")),
     ]);
     return true;
   } catch {
@@ -70,9 +78,9 @@ export async function runEvaluateAllCommand(examplesDir: string, options: Evalua
     }
 
     const exampleDir = path.join(resolvedExamplesDir, entry.name);
-    if (!(await hasGeneratedOutputs(exampleDir))) {
+    if (!(await hasGeneratedOutputs(exampleDir, options.outDir))) {
       skipped += 1;
-      console.log(`Skipping ${entry.name}: missing graph.json or context-pack.md`);
+      console.log(`Skipping ${entry.name}: missing outputs/graph.json or outputs/context-pack.md`);
       continue;
     }
 
