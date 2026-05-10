@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+import { Command } from "commander";
+import { config as loadEnv } from "dotenv";
+import { runExportCommand } from "./commands/export.js";
+import { runExtractCommand } from "./commands/extract.js";
+import { runExampleCommand } from "./commands/runExample.js";
+
+loadEnv();
+
+const program = new Command();
+
+program
+  .name("graphctx")
+  .description("Turn messy AI conversations into context graphs and reusable Context Packs.")
+  .version("0.1.0");
+
+program
+  .command("extract")
+  .argument("<input-file>", "Markdown or text file to extract")
+  .option("--out-dir <dir>", "Directory for graph.json, context-pack.md, and evaluation.md")
+  .option("--provider <provider>", "LLM provider: openai or openrouter")
+  .option("--model <model>", "Model override")
+  .option("--max-input-chars <chars>", "Maximum input characters to send to the LLM")
+  .option("--temperature <temperature>", "LLM temperature")
+  .action(async (inputFile, options) => {
+    await runExtractCommand(inputFile, options);
+  });
+
+program
+  .command("export")
+  .argument("<graph-file>", "Graph JSON file to export")
+  .option("--out-dir <dir>", "Directory for context-pack.md")
+  .action(async (graphFile, options) => {
+    await runExportCommand(graphFile, options);
+  });
+
+program
+  .command("run-example")
+  .argument("<example-dir>", "Example directory containing input.md")
+  .option("--out-dir <dir>", "Directory for generated outputs")
+  .option("--provider <provider>", "LLM provider: openai or openrouter")
+  .option("--model <model>", "Model override")
+  .option("--max-input-chars <chars>", "Maximum input characters to send to the LLM")
+  .option("--temperature <temperature>", "LLM temperature")
+  .action(async (exampleDir, options) => {
+    await runExampleCommand(exampleDir, options);
+  });
+
+program.parseAsync().catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(message);
+  process.exitCode = 1;
+});
