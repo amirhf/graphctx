@@ -1,5 +1,6 @@
 import type { LlmProvider } from "@graphctx/llm-extractor";
 import path from "node:path";
+import { DEFAULT_EXAMPLE_OUTPUT_DIR } from "@graphctx/evaluation";
 import { runExtractCommand } from "./extract.js";
 
 export type CompareCommandOptions = {
@@ -28,7 +29,9 @@ export async function runCompareCommand(inputFile: string, options: CompareComma
   }
 
   const inputPath = path.resolve(inputFile);
-  const baseOutDir = path.resolve(options.outDir?.trim() || path.join(path.dirname(inputPath), "runs"));
+  const baseOutDir = path.resolve(
+    options.outDir?.trim() || path.join(path.dirname(inputPath), DEFAULT_EXAMPLE_OUTPUT_DIR, "runs"),
+  );
 
   for (const model of models) {
     const runName = safeRunName(model);

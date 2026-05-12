@@ -17,7 +17,6 @@ describe("runExampleCommand", () => {
 
     const exampleDir = path.resolve("examples/demo");
     expect(runExtractCommand).toHaveBeenCalledWith(path.join(exampleDir, "input.md"), {
-      outDir: path.join(exampleDir, "outputs"),
     });
   });
 

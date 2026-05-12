@@ -4,7 +4,7 @@ Turn messy AI conversations into structured context graphs and reusable Context 
 
 ## Status
 
-This version is a local extraction/export engine with an opt-in Phase 1.5 quality pass. It does not include the visual graph UI yet.
+This version is a local extraction/export engine with an opt-in quality pass. It does not include the visual graph UI yet.
 
 ## Quickstart
 
@@ -12,12 +12,20 @@ This version is a local extraction/export engine with an opt-in Phase 1.5 qualit
 pnpm install
 cp .env.example .env
 # add an OpenAI or OpenRouter API key
-pnpm graphctx run-example examples/graphctx-mvp-planning
+pnpm graphctx run-examples
 ```
 
 ## Extract Output
 
-By default, direct `extract` writes these Phase 1 files next to the input unless `--out-dir` is provided:
+By default, commands write generated files under an `outputs/` folder unless `--out-dir` is provided.
+
+For `extract` and `run-example`, the default output folder is:
+
+```text
+examples/<case>/outputs/
+```
+
+Without `--quality-pass`, extraction writes:
 
 - `graph.json`
 - `context-pack.md`
@@ -32,28 +40,107 @@ With `--quality-pass`, `extract` writes:
 - `critique.json`
 - `quality.diagnostics.json`
 
-Example runs use a cleaner default and write generated files under:
-
-```text
-examples/<case>/outputs/
-```
-
 ## Commands
+
+### `extract`
+
+Extracts a graph and Context Pack from a Markdown or text input file.
 
 ```bash
 pnpm graphctx extract examples/graphctx-mvp-planning/input.md
+```
+
+Use `--quality-pass` to run the critique-and-patch layer:
+
+```bash
 pnpm graphctx extract examples/graphctx-mvp-planning/input.md --quality-pass
 pnpm graphctx extract examples/graphctx-mvp-planning/input.md --quality-pass --patch-model gpt-4.1
+```
+
+Use `--provider` or `--model` to override the configured LLM:
+
+```bash
 pnpm graphctx extract examples/graphctx-mvp-planning/input.md --provider openrouter
+```
+
+### `compare`
+
+Runs extraction for multiple models and writes each run to a separate model folder. This is useful for comparing graph coverage, Context Pack quality, and quality-pass behavior across models or prompts.
+
+```bash
 pnpm graphctx compare examples/graphctx-mvp-planning/input.md --models gpt-4.1-mini,gpt-4.1 --quality-pass
+```
+
+By default, comparison runs are written under `examples/<case>/outputs/runs/<model>/`.
+
+### `export`
+
+Regenerates `context-pack.md` from an existing `graph.json` without calling an LLM. If the graph is already inside an `outputs/` folder, the Context Pack is written there; otherwise it is written to a sibling `outputs/` folder.
+
+```bash
 pnpm graphctx export examples/graphctx-mvp-planning/outputs/graph.json
+```
+
+### `run-example`
+
+Runs extraction for an example directory containing `input.md`. By default, generated files are written to `examples/<case>/outputs/`.
+
+```bash
 pnpm graphctx run-example examples/graphctx-mvp-planning
-pnpm graphctx run-example examples/graphctx-mvp-planning --out-dir examples/graphctx-mvp-planning
+```
+
+Use `--out-dir` to intentionally write somewhere else:
+
+```bash
+pnpm graphctx run-example examples/graphctx-mvp-planning --out-dir /tmp/graphctx-output
+```
+
+### `run-examples`
+
+Runs extraction and evaluation for every immediate child folder under a parent examples directory. Each child folder must contain `input.md`. Evaluation uses the LLM judge by default.
+
+```bash
+pnpm graphctx run-examples
+pnpm graphctx run-examples examples --quality-pass
+pnpm graphctx run-examples examples --quality-pass --skip-llm
+pnpm graphctx run-examples examples --provider openrouter --model openai/gpt-4.1-mini
+```
+
+Use judge-specific options when the evaluator should use a different model from extraction:
+
+```bash
+pnpm graphctx run-examples examples --judge-provider openai --judge-model gpt-4.1
+```
+
+### `evaluate`
+
+Evaluates one generated example using deterministic checks and, unless `--skip-llm` is passed, an optional LLM judge. By default, it reads from and writes to `examples/<case>/outputs/`.
+
+```bash
 pnpm graphctx evaluate examples/graphctx-mvp-planning
 pnpm graphctx evaluate examples/graphctx-mvp-planning --skip-llm
+```
+
+### `evaluate-all`
+
+Evaluates every example folder with generated outputs. Examples missing `outputs/graph.json` or `outputs/context-pack.md` are skipped.
+
+```bash
 pnpm graphctx evaluate-all examples --skip-llm
-pnpm test
+```
+
+### Development Commands
+
+Build all workspace packages:
+
+```bash
 pnpm build
+```
+
+Run the full test suite:
+
+```bash
+pnpm test
 ```
 
 ## Automated Evaluation
@@ -77,7 +164,7 @@ Use `--fail-under` to make evaluation fail below a score threshold:
 pnpm graphctx evaluate examples/graphctx-mvp-planning --skip-llm --fail-under 4
 ```
 
-## Phase 1.5 Quality Pass
+## Quality Pass
 
 The quality pass is opt-in:
 
@@ -107,9 +194,7 @@ Quality runs write:
 - `critique.json`
 - `quality.diagnostics.json`
 
-Without `--quality-pass`, direct `extract` keeps the Phase 1 behavior and writes only `graph.json`, `context-pack.md`, and `evaluation.md`.
-
-When quality pass is run through `run-example`, those files are written under `examples/<case>/outputs/`.
+Without `--quality-pass`, `extract` writes only `graph.json`, `context-pack.md`, and `evaluation.md` under `outputs/`.
 
 For lightweight model comparison:
 
@@ -117,7 +202,7 @@ For lightweight model comparison:
 pnpm graphctx compare examples/<case>/input.md --models gpt-4.1-mini,gpt-4.1 --quality-pass
 ```
 
-Comparison outputs are written under `examples/<case>/runs/<model>/` unless `--out-dir` is provided. Each model run uses the same output layout as `extract`.
+Comparison outputs are written under `examples/<case>/outputs/runs/<model>/` unless `--out-dir` is provided. Each model run uses the same output layout as `extract`.
 
 ## Environment
 

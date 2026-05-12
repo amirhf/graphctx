@@ -5,6 +5,5 @@ export async function runExampleCommand(exampleDir: string, options: ExtractComm
   const resolvedExampleDir = path.resolve(exampleDir);
   await runExtractCommand(path.join(resolvedExampleDir, "input.md"), {
     ...options,
-    outDir: options.outDir ?? path.join(resolvedExampleDir, "outputs"),
   });
 }

@@ -20,10 +20,17 @@ Evaluate the generated output:
 pnpm graphctx evaluate examples/graphctx-mvp-planning --skip-llm
 ```
 
-To intentionally write generated files beside `input.md`, pass an explicit output directory:
+Run extraction and evaluation for every example folder:
 
 ```bash
-pnpm graphctx run-example examples/graphctx-mvp-planning --out-dir examples/graphctx-mvp-planning
+pnpm graphctx run-examples examples --skip-llm
+pnpm graphctx run-examples examples --quality-pass --skip-llm
+```
+
+To intentionally write generated files somewhere else, pass an explicit output directory:
+
+```bash
+pnpm graphctx run-example examples/graphctx-mvp-planning --out-dir /tmp/graphctx-output
 ```
 
 The first example uses real GraphCtx planning material. The other four examples are synthetic placeholders and should be replaced with real user conversations before judging Phase 1 quality.

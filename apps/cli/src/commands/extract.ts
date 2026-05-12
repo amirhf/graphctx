@@ -1,5 +1,5 @@
 import { exportContextPackMarkdown } from "@graphctx/context-pack-exporter";
-import { createEvaluationTemplate } from "@graphctx/evaluation";
+import { createEvaluationTemplate, DEFAULT_EXAMPLE_OUTPUT_DIR } from "@graphctx/evaluation";
 import { validateContextGraph } from "@graphctx/graph-schema";
 import { extractGraph, improveGraphQuality, type LlmProvider } from "@graphctx/llm-extractor";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -40,12 +40,16 @@ function parseOptionalFloat(value: string | undefined): number | undefined {
   return parsed;
 }
 
+export function resolveExtractOutputDir(inputPath: string, outDir?: string): string {
+  const configuredOutDir = outDir?.trim() || process.env.GRAPHCTX_OUTPUT_DIR?.trim();
+  return path.resolve(configuredOutDir || path.join(path.dirname(inputPath), DEFAULT_EXAMPLE_OUTPUT_DIR));
+}
+
 export async function runExtractCommand(inputFile: string, options: ExtractCommandOptions): Promise<void> {
   console.log("Reading input...");
   const inputPath = path.resolve(inputFile);
   const input = await readFile(inputPath, "utf8");
-  const configuredOutDir = options.outDir?.trim() || process.env.GRAPHCTX_OUTPUT_DIR?.trim();
-  const outDir = path.resolve(configuredOutDir || path.dirname(inputPath));
+  const outDir = resolveExtractOutputDir(inputPath, options.outDir);
 
   const provider = options.provider ?? (process.env.LLM_PROVIDER as LlmProvider | undefined) ?? "openai";
   const model =

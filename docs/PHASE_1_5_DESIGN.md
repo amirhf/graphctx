@@ -72,7 +72,7 @@ With `--quality-pass`, extraction writes:
 - `critique.json`
 - `quality.diagnostics.json`
 
-When run through `run-example`, these files are written under `examples/<case>/outputs/` by default.
+By default, these files are written under `examples/<case>/outputs/` for example inputs.
 
 Without `--quality-pass`, extraction keeps the Phase 1 outputs:
 

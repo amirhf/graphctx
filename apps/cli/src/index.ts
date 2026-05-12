@@ -6,6 +6,7 @@ import { runEvaluateAllCommand, runEvaluateCommand } from "./commands/evaluate.j
 import { runExportCommand } from "./commands/export.js";
 import { runExtractCommand } from "./commands/extract.js";
 import { runExampleCommand } from "./commands/runExample.js";
+import { runExamplesCommand } from "./commands/runExamples.js";
 
 loadEnv();
 
@@ -19,7 +20,7 @@ program
 program
   .command("extract")
   .argument("<input-file>", "Markdown or text file to extract")
-  .option("--out-dir <dir>", "Directory for graph.json, context-pack.md, and evaluation.md")
+  .option("--out-dir <dir>", "Directory for generated files; defaults to <input-dir>/outputs")
   .option("--provider <provider>", "LLM provider: openai or openrouter")
   .option("--model <model>", "Model override")
   .option("--patch-model <model>", "Patch model override for --quality-pass")
@@ -35,7 +36,7 @@ program
   .command("compare")
   .argument("<input-file>", "Markdown or text file to extract")
   .requiredOption("--models <models>", "Comma-separated model list")
-  .option("--out-dir <dir>", "Directory for model run outputs")
+  .option("--out-dir <dir>", "Directory for model run outputs; defaults to <input-dir>/outputs/runs")
   .option("--provider <provider>", "LLM provider: openai or openrouter")
   .option("--max-input-chars <chars>", "Maximum input characters to send to the LLM")
   .option("--temperature <temperature>", "LLM temperature")
@@ -49,7 +50,7 @@ program
 program
   .command("export")
   .argument("<graph-file>", "Graph JSON file to export")
-  .option("--out-dir <dir>", "Directory for context-pack.md")
+  .option("--out-dir <dir>", "Directory for context-pack.md; defaults to an outputs folder")
   .action(async (graphFile, options) => {
     await runExportCommand(graphFile, options);
   });
@@ -57,13 +58,32 @@ program
 program
   .command("run-example")
   .argument("<example-dir>", "Example directory containing input.md")
-  .option("--out-dir <dir>", "Directory for generated outputs; defaults to <example-dir>/outputs")
+  .option("--out-dir <dir>", "Directory for generated files; defaults to <example-dir>/outputs")
   .option("--provider <provider>", "LLM provider: openai or openrouter")
   .option("--model <model>", "Model override")
   .option("--max-input-chars <chars>", "Maximum input characters to send to the LLM")
   .option("--temperature <temperature>", "LLM temperature")
   .action(async (exampleDir, options) => {
     await runExampleCommand(exampleDir, options);
+  });
+
+program
+  .command("run-examples")
+  .argument("[examples-dir]", "Directory containing example folders", "examples")
+  .option("--provider <provider>", "Extraction LLM provider: openai or openrouter")
+  .option("--model <model>", "Extraction model override")
+  .option("--max-input-chars <chars>", "Maximum input characters to send to the extraction LLM")
+  .option("--temperature <temperature>", "Extraction LLM temperature")
+  .option("--quality-pass", "Run the critique-and-patch quality pass during extraction")
+  .option("--patch-model <model>", "Patch model override for --quality-pass")
+  .option("--max-patch-rounds <rounds>", "Maximum quality patch rounds", "1")
+  .option("--skip-llm", "Run deterministic evaluation checks only")
+  .option("--judge-provider <provider>", "LLM judge provider: openai or openrouter")
+  .option("--judge-model <model>", "LLM judge model override")
+  .option("--judge-temperature <temperature>", "LLM judge temperature")
+  .option("--fail-under <score>", "Exit nonzero when any evaluated example is below this threshold")
+  .action(async (examplesDir, options) => {
+    await runExamplesCommand(examplesDir, options);
   });
 
 program

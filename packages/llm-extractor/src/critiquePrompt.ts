@@ -1,9 +1,33 @@
 import type { ContextGraph, CoverageAnalysis } from "@graphctx/graph-schema";
 import { z } from "zod";
 
+const coreCritiqueNodeTypes = ["decision", "assumption", "risk", "question", "task"] as const;
+const coreCritiqueNodeTypeSet = new Set<string>(coreCritiqueNodeTypes);
+
+function normalizeMissingNodeTypes(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const normalizedTypes = new Set<string>();
+  for (const item of value) {
+    if (typeof item !== "string") {
+      continue;
+    }
+
+    const normalized = item.toLowerCase().trim().replace(/[\s-]+/g, "_");
+    const alias = normalized === "open_question" || normalized === "open_questions" ? "question" : normalized;
+    if (coreCritiqueNodeTypeSet.has(alias)) {
+      normalizedTypes.add(alias);
+    }
+  }
+
+  return [...normalizedTypes];
+}
+
 export const GraphCritiqueSchema = z.object({
   summary: z.string().min(1),
-  missing_node_types: z.array(z.enum(["decision", "assumption", "risk", "question", "task"])),
+  missing_node_types: z.preprocess(normalizeMissingNodeTypes, z.array(z.enum(coreCritiqueNodeTypes))),
   issues: z.array(
     z.object({
       type: z.enum([
@@ -52,6 +76,7 @@ Your task is to critique a current ContextGraph for reusable-context gaps. Focus
 - missing source quotes
 
 Do not invent content. Only recommend additions or changes that are explicit in, or strongly implied by, the source input.
+Only include decision, assumption, risk, question, or task in missing_node_types. Use source_traceability issues for missing source quotes instead of adding source to missing_node_types.
 
 Return ONLY valid JSON matching this exact shape:
 {

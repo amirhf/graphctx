@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ContextGraph, CoverageAnalysis } from "@graphctx/graph-schema";
-import { buildGraphCritiquePrompt } from "./critiquePrompt.js";
+import { buildGraphCritiquePrompt, GraphCritiqueSchema } from "./critiquePrompt.js";
 import { buildGraphPatchPrompt } from "./patchPrompt.js";
 
 const graph: ContextGraph = {
@@ -58,5 +58,16 @@ describe("quality prompts", () => {
     expect(prompt).toContain("Do not fabricate unsupported content");
     expect(prompt).toContain("source_span.quote");
     expect(prompt).toContain("Preserve good existing nodes");
+  });
+
+  it("filters non-core missing node types from critique responses", () => {
+    const critique = GraphCritiqueSchema.parse({
+      summary: "Missing source traceability and tasks.",
+      missing_node_types: ["source", "task", "open questions"],
+      issues: [],
+      patch_plan: ["Add task nodes and source quotes where grounded."],
+    });
+
+    expect(critique.missing_node_types).toEqual(["task", "question"]);
   });
 });
