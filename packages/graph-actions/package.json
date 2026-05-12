@@ -1,0 +1,19 @@
+{
+  "name": "@graphctx/graph-actions",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@graphctx/graph-schema": "workspace:*",
+    "@graphctx/llm-extractor": "workspace:*"
+  }
+}

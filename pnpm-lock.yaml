@@ -57,6 +57,15 @@ importers:
         specifier: ^3.24.3
         version: 3.25.76
 
+  packages/graph-actions:
+    dependencies:
+      '@graphctx/graph-schema':
+        specifier: workspace:*
+        version: link:../graph-schema
+      '@graphctx/llm-extractor':
+        specifier: workspace:*
+        version: link:../llm-extractor
+
   packages/graph-schema:
     dependencies:
       zod:
