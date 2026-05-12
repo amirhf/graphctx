@@ -81,6 +81,10 @@ ${currentUnderstanding}
 
 ${bulletList(groups.idea, "No explicit key ideas were extracted.")}
 
+## Claims
+
+${bulletList(groups.claim, "No explicit claims were extracted.")}
+
 ## Decisions Made
 
 ${decisionList(groups.decision, graph)}
@@ -93,9 +97,17 @@ ${assumptionList(groups.assumption)}
 
 ${bulletList(groups.question, "No explicit open questions were extracted.")}
 
+## Answers
+
+${bulletList(groups.answer, "No explicit answers were extracted.")}
+
 ## Risks
 
 ${bulletList(groups.risk, "No explicit risks were extracted.")}
+
+## Tradeoffs
+
+${bulletList(groups.tradeoff, "No explicit tradeoffs were extracted.")}
 
 ## Tasks / Next Actions
 

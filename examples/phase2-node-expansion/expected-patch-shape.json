@@ -1,0 +1,71 @@
+{
+  "id": "patch-mock-question-1",
+  "action": "expand_node",
+  "targetNodeIds": ["question-1"],
+  "summary": "Mock expansion for \"How should node expansion work?\" using instruction: Answer the selected expansion question and add any follow-up validation work.",
+  "addedNodes": [
+    {
+      "id": "mock-question-1-answer",
+      "type": "answer",
+      "title": "Draft answer for How should node expansion work?",
+      "body": "A focused next answer should address \"How should node expansion work?\" using the current graph context.",
+      "tags": ["expansion", "mock-expansion", "phase2"],
+      "created_by": "system",
+      "status": "draft",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-assumption",
+      "type": "assumption",
+      "title": "Assumption behind How should node expansion work?",
+      "body": "The current graph contains enough context to propose a bounded answer without restarting from basics.",
+      "tags": ["expansion", "mock-expansion", "phase2"],
+      "created_by": "system",
+      "status": "draft",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-task",
+      "type": "task",
+      "title": "Validate answer for How should node expansion work?",
+      "body": "Review the proposed answer against the original source notes and update the graph if it is unsupported.",
+      "tags": ["expansion", "mock-expansion", "phase2"],
+      "created_by": "system",
+      "status": "draft",
+      "metadata": { "mode": "mock" }
+    }
+  ],
+  "updatedNodes": [],
+  "addedEdges": [
+    {
+      "id": "mock-question-1-answers",
+      "source": "mock-question-1-answer",
+      "target": "question-1",
+      "type": "answers",
+      "rationale": "The new answer addresses the selected question.",
+      "created_by": "system",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-assumption-supports",
+      "source": "mock-question-1-assumption",
+      "target": "mock-question-1-answer",
+      "type": "supports",
+      "rationale": "The assumption supports the draft answer.",
+      "created_by": "system",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-task-depends",
+      "source": "mock-question-1-task",
+      "target": "mock-question-1-answer",
+      "type": "depends_on",
+      "rationale": "The validation task depends on the draft answer.",
+      "created_by": "system",
+      "metadata": { "mode": "mock" }
+    }
+  ],
+  "warnings": ["Mock mode generated deterministic placeholder content."],
+  "createdAt": "2026-05-12T00:00:00.000Z",
+  "metadata": { "mode": "mock" }
+}

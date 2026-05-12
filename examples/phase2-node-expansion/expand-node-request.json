@@ -1,0 +1,5 @@
+{
+  "targetNodeIds": ["question-1"],
+  "instruction": "Answer the selected expansion question and add any follow-up validation work.",
+  "mode": "mock"
+}

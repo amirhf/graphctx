@@ -1,0 +1,136 @@
+{
+  "id": "phase2-node-expansion",
+  "title": "Phase 2 Node Expansion",
+  "sourceText": "We want GraphCtx Phase 2 to prove that a graph can become the interaction surface for AI work, not just an output artifact.",
+  "summary": "Phase 2 should validate select-node expansion through previewable graph patches.",
+  "createdAt": "2026-05-12T00:00:00.000Z",
+  "updatedAt": "2026-05-12T00:00:01.000Z",
+  "metadata": {
+    "phase": "phase2",
+    "sourceName": "phase2-node-expansion/input.md"
+  },
+  "nodes": [
+    {
+      "id": "summary-1",
+      "type": "summary",
+      "title": "Phase 2 workflow",
+      "body": "Phase 2 should prove select node, expand with context, preview patch, apply, and export.",
+      "tags": ["phase2"]
+    },
+    {
+      "id": "question-1",
+      "type": "question",
+      "title": "How should node expansion work?",
+      "body": "The selected node should drive an expansion that returns a structured graph patch.",
+      "tags": ["phase2", "expansion"]
+    },
+    {
+      "id": "decision-1",
+      "type": "decision",
+      "title": "Preview patches before apply",
+      "body": "Graph-changing AI actions must return a previewable patch before they mutate the graph.",
+      "tags": ["phase2", "patch"]
+    },
+    {
+      "id": "assumption-1",
+      "type": "assumption",
+      "title": "Mock mode is enough for development",
+      "body": "Local deterministic mock mode can support UI development and CI.",
+      "tags": ["phase2", "mock"]
+    },
+    {
+      "id": "risk-1",
+      "type": "risk",
+      "title": "Patch can corrupt graph",
+      "body": "An invalid patch could leave dangling edges or hide where new context came from.",
+      "tags": ["phase2", "validation"]
+    },
+    {
+      "id": "task-1",
+      "type": "task",
+      "title": "Validate patched export",
+      "body": "Validate patch application and Context Pack export after the patch is applied.",
+      "tags": ["phase2", "export"]
+    },
+    {
+      "id": "mock-question-1-answer",
+      "type": "answer",
+      "title": "Draft answer for How should node expansion work?",
+      "body": "A focused next answer should address \"How should node expansion work?\" using the current graph context.",
+      "tags": ["expansion", "mock-expansion", "phase2"],
+      "created_by": "system",
+      "status": "draft",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-assumption",
+      "type": "assumption",
+      "title": "Assumption behind How should node expansion work?",
+      "body": "The current graph contains enough context to propose a bounded answer without restarting from basics.",
+      "tags": ["expansion", "mock-expansion", "phase2"],
+      "created_by": "system",
+      "status": "draft",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-task",
+      "type": "task",
+      "title": "Validate answer for How should node expansion work?",
+      "body": "Review the proposed answer against the original source notes and update the graph if it is unsupported.",
+      "tags": ["expansion", "mock-expansion", "phase2"],
+      "created_by": "system",
+      "status": "draft",
+      "metadata": { "mode": "mock" }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "source": "summary-1",
+      "target": "question-1",
+      "type": "leads_to",
+      "rationale": "The workflow summary raises the expansion question."
+    },
+    {
+      "id": "edge-2",
+      "source": "decision-1",
+      "target": "question-1",
+      "type": "answers",
+      "rationale": "Previewable patches answer how mutation should be handled."
+    },
+    {
+      "id": "edge-3",
+      "source": "risk-1",
+      "target": "decision-1",
+      "type": "supports",
+      "rationale": "Patch corruption risk supports preview and validation."
+    },
+    {
+      "id": "mock-question-1-answers",
+      "source": "mock-question-1-answer",
+      "target": "question-1",
+      "type": "answers",
+      "rationale": "The new answer addresses the selected question.",
+      "created_by": "system",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-assumption-supports",
+      "source": "mock-question-1-assumption",
+      "target": "mock-question-1-answer",
+      "type": "supports",
+      "rationale": "The assumption supports the draft answer.",
+      "created_by": "system",
+      "metadata": { "mode": "mock" }
+    },
+    {
+      "id": "mock-question-1-task-depends",
+      "source": "mock-question-1-task",
+      "target": "mock-question-1-answer",
+      "type": "depends_on",
+      "rationale": "The validation task depends on the draft answer.",
+      "created_by": "system",
+      "metadata": { "mode": "mock" }
+    }
+  ]
+}

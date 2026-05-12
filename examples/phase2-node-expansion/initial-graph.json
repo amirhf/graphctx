@@ -1,0 +1,79 @@
+{
+  "id": "phase2-node-expansion",
+  "title": "Phase 2 Node Expansion",
+  "sourceText": "We want GraphCtx Phase 2 to prove that a graph can become the interaction surface for AI work, not just an output artifact.",
+  "summary": "Phase 2 should validate select-node expansion through previewable graph patches.",
+  "createdAt": "2026-05-12T00:00:00.000Z",
+  "updatedAt": "2026-05-12T00:00:00.000Z",
+  "metadata": {
+    "phase": "phase2",
+    "sourceName": "phase2-node-expansion/input.md"
+  },
+  "nodes": [
+    {
+      "id": "summary-1",
+      "type": "summary",
+      "title": "Phase 2 workflow",
+      "body": "Phase 2 should prove select node, expand with context, preview patch, apply, and export.",
+      "tags": ["phase2"]
+    },
+    {
+      "id": "question-1",
+      "type": "question",
+      "title": "How should node expansion work?",
+      "body": "The selected node should drive an expansion that returns a structured graph patch.",
+      "tags": ["phase2", "expansion"]
+    },
+    {
+      "id": "decision-1",
+      "type": "decision",
+      "title": "Preview patches before apply",
+      "body": "Graph-changing AI actions must return a previewable patch before they mutate the graph.",
+      "tags": ["phase2", "patch"]
+    },
+    {
+      "id": "assumption-1",
+      "type": "assumption",
+      "title": "Mock mode is enough for development",
+      "body": "Local deterministic mock mode can support UI development and CI.",
+      "tags": ["phase2", "mock"]
+    },
+    {
+      "id": "risk-1",
+      "type": "risk",
+      "title": "Patch can corrupt graph",
+      "body": "An invalid patch could leave dangling edges or hide where new context came from.",
+      "tags": ["phase2", "validation"]
+    },
+    {
+      "id": "task-1",
+      "type": "task",
+      "title": "Validate patched export",
+      "body": "Validate patch application and Context Pack export after the patch is applied.",
+      "tags": ["phase2", "export"]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "source": "summary-1",
+      "target": "question-1",
+      "type": "leads_to",
+      "rationale": "The workflow summary raises the expansion question."
+    },
+    {
+      "id": "edge-2",
+      "source": "decision-1",
+      "target": "question-1",
+      "type": "answers",
+      "rationale": "Previewable patches answer how mutation should be handled."
+    },
+    {
+      "id": "edge-3",
+      "source": "risk-1",
+      "target": "decision-1",
+      "type": "supports",
+      "rationale": "Patch corruption risk supports preview and validation."
+    }
+  ]
+}
