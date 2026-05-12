@@ -9,6 +9,9 @@ export const nodeTypes = [
   "task",
   "source",
   "summary",
+  "answer",
+  "claim",
+  "tradeoff",
 ] as const;
 
 export const edgeTypes = [
@@ -19,6 +22,7 @@ export const edgeTypes = [
   "depends_on",
   "leads_to",
   "answers",
+  "derived_from",
 ] as const;
 
 export const SourceSpanSchema = z
@@ -35,8 +39,11 @@ export const GraphNodeSchema = z.object({
   title: z.string().min(1),
   body: z.string().min(1),
   confidence: z.number().min(0).max(1).optional(),
+  created_by: z.enum(["ai", "user", "system"]).optional(),
   tags: z.array(z.string().min(1)).default([]),
+  status: z.enum(["active", "draft", "accepted", "rejected"]).optional(),
   source_span: SourceSpanSchema,
+  metadata: z.record(z.unknown()).optional(),
 });
 
 export const GraphEdgeSchema = z.object({
@@ -45,6 +52,51 @@ export const GraphEdgeSchema = z.object({
   target: z.string().min(1),
   type: z.enum(edgeTypes),
   rationale: z.string().optional(),
+  confidence: z.number().min(0).max(1).optional(),
+  created_by: z.enum(["ai", "user", "system"]).optional(),
+  metadata: z.record(z.unknown()).optional(),
+});
+
+export const GraphDocumentSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  sourceText: z.string().optional(),
+  summary: z.string().min(1),
+  nodes: z.array(GraphNodeSchema).min(1, "graph must contain at least one node"),
+  edges: z.array(GraphEdgeSchema),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+  metadata: z.record(z.unknown()).optional(),
+});
+
+export const graphPatchActions = [
+  "expand_node",
+  "import_text",
+  "summarize_subgraph",
+] as const;
+
+const UpdatedGraphNodeSchema = GraphNodeSchema.partial().extend({
+  id: z.string().min(1),
+});
+
+const UpdatedGraphEdgeSchema = GraphEdgeSchema.partial().extend({
+  id: z.string().min(1),
+});
+
+export const GraphPatchSchema = z.object({
+  id: z.string().min(1),
+  action: z.enum(graphPatchActions),
+  targetNodeIds: z.array(z.string().min(1)),
+  summary: z.string().min(1),
+  addedNodes: z.array(GraphNodeSchema).default([]),
+  updatedNodes: z.array(UpdatedGraphNodeSchema).default([]),
+  deletedNodeIds: z.array(z.string().min(1)).optional(),
+  addedEdges: z.array(GraphEdgeSchema).default([]),
+  updatedEdges: z.array(UpdatedGraphEdgeSchema).optional(),
+  deletedEdgeIds: z.array(z.string().min(1)).optional(),
+  warnings: z.array(z.string().min(1)).optional(),
+  createdAt: z.string().datetime(),
+  metadata: z.record(z.unknown()).optional(),
 });
 
 export const QualityPassMetadataSchema = z.object({

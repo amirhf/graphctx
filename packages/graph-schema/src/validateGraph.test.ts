@@ -22,7 +22,7 @@ describe("validateContextGraph", () => {
   it("fails invalid node types", () => {
     const result = validateContextGraph({
       ...validGraph,
-      nodes: [{ ...validGraph.nodes[0], type: "claim" }],
+      nodes: [{ ...validGraph.nodes[0], type: "unknown" }],
     });
 
     expect(result.ok).toBe(false);

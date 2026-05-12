@@ -1,6 +1,14 @@
-import type { ContextGraph, GraphNode, NodeType } from "@graphctx/graph-schema";
+import { nodeTypes, type ContextGraph, type GraphNode, type NodeType } from "@graphctx/graph-schema";
 
 export type GroupedNodes = Record<NodeType, GraphNode[]>;
+
+function createEmptyGroups(): GroupedNodes {
+  const groups = {} as GroupedNodes;
+  for (const type of nodeTypes) {
+    groups[type] = [];
+  }
+  return groups;
+}
 
 export function groupNodesByType(graph: ContextGraph): GroupedNodes {
   return graph.nodes.reduce<GroupedNodes>(
@@ -8,15 +16,6 @@ export function groupNodesByType(graph: ContextGraph): GroupedNodes {
       groups[node.type].push(node);
       return groups;
     },
-    {
-      idea: [],
-      question: [],
-      assumption: [],
-      decision: [],
-      risk: [],
-      task: [],
-      source: [],
-      summary: [],
-    },
+    createEmptyGroups(),
   );
 }
