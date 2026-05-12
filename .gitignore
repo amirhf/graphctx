@@ -1,5 +1,8 @@
 node_modules/
 dist/
+.next/
+apps/web/.next/
+*.tsbuildinfo
 .env
 .DS_Store
 examples/**/outputs/

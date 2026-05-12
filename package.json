@@ -6,6 +6,7 @@
   "packageManager": "pnpm@10.28.2",
   "scripts": {
     "build": "pnpm -r build",
+    "dev": "pnpm --dir apps/web dev",
     "test": "pnpm build && vitest run",
     "graphctx": "pnpm build && node apps/cli/dist/index.js"
   },
